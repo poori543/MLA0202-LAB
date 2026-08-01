@@ -1,0 +1,12 @@
+data = [
+    ['Sunny', 'Warm', 'Yes'],
+    ['Sunny', 'Cold', 'Yes'],
+    ['Rainy', 'Warm', 'No']
+]
+hypothesis = data[0][:-1]
+for row in data:
+    if row[-1] == 'Yes':
+        for i in range(len(hypothesis)):
+            if hypothesis[i] != row[i]:
+                hypothesis[i] = '?'
+print('Final Hypothesis:', hypothesis)
