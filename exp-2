@@ -1,0 +1,22 @@
+import csv
+with open("data.csv", "r") as file:
+    data = list(csv.reader(file))
+S = ["0"] * (len(data[0]) - 1)
+G = ["?"] * (len(data[0]) - 1)
+for row in data:
+    x = row[:-1]
+    label = row[-1]
+    if label == "Yes":
+        for i in range(len(S)):
+            if S[i] == "0":
+                S[i] = x[i]
+            elif S[i] != x[i]:
+                S[i] = "?"
+    else:
+        for i in range(len(G)):
+            if S[i] != "?" and S[i] != x[i]:
+                G[i] = S[i]
+            else:
+                G[i] = "?"
+print("Specific Boundary S:", S)
+print("General Boundary G:", G)
