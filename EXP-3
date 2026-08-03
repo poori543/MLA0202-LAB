@@ -1,0 +1,14 @@
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+data = {
+    "Outlook": [0, 0, 1, 2, 2, 1, 0, 2],
+    "Humidity": [1, 1, 1, 1, 0, 0, 0, 1],
+    "Play": [0, 0, 1, 1, 1, 1, 1, 0]
+}
+df = pd.DataFrame(data)
+X = df[["Outlook", "Humidity"]]
+y = df["Play"]
+model = DecisionTreeClassifier(criterion="entropy")
+model.fit(X, y)
+result = model.predict([[0, 0]])
+print("Prediction:", "Yes" if result[0] == 1 else "No")
