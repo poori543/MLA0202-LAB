@@ -1,0 +1,13 @@
+import numpy as np
+X = np.array([[0,0],[0,1],[1,0],[1,1]])
+y = np.array([[0],[1],[1],[0]])
+np.random.seed(1)
+W1 = np.random.rand(2,2)
+W2 = np.random.rand(2,1)
+for i in range(10000):
+    H = 1/(1 + np.exp(-X.dot(W1)))
+    O = 1/(1 + np.exp(-H.dot(W2)))
+    error = y - O
+    W2 += H.T.dot(error * O * (1-O))
+    W1 += X.T.dot((error * O * (1-O)).dot(W2.T) * H * (1-H))
+print(np.round(O, 2))
