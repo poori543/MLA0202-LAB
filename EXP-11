@@ -1,0 +1,73 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, classification_report
+data = {
+    "Income": [
+        25000, 30000, 35000, 40000, 45000,
+        50000, 55000, 60000, 65000, 70000,
+        28000, 32000, 38000, 42000, 48000,
+        52000, 58000, 62000, 68000, 75000
+    ],
+    "Age": [
+        22, 25, 28, 30, 32,
+        35, 38, 40, 42, 45,
+        24, 27, 29, 31, 34,
+        37, 39, 43, 46, 50
+    ],
+    "LoanAmount": [
+        200000, 250000, 300000, 350000, 400000,
+        450000, 500000, 550000, 600000, 650000,
+        220000, 270000, 320000, 370000, 420000,
+        470000, 520000, 570000, 620000, 680000
+    ],
+    "CreditHistory": [
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1
+    ],
+    "CreditScore": [
+        "Poor", "Poor", "Poor", "Average", "Average",
+        "Average", "Good", "Good", "Good", "Good",
+        "Poor", "Poor", "Poor", "Average", "Average",
+        "Average", "Good", "Good", "Good", "Good"
+    ]
+}
+df = pd.DataFrame(data)
+print("\n========== CREDIT SCORE DATASET ==========")
+print(df)
+X = df[["Income", "Age", "LoanAmount", "CreditHistory"]]
+y = df["CreditScore"]
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.25,
+    random_state=42
+)
+model = DecisionTreeClassifier(
+    random_state=42,
+    max_depth=4
+)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("\n========== MODEL RESULT ==========")
+print("Actual Credit Scores :", list(y_test))
+print("Predicted Credit Scores:", list(y_pred))
+print("\nAccuracy:", round(accuracy * 100, 2), "%")
+print("\n========== CLASSIFICATION REPORT ==========")
+print(classification_report(y_test, y_pred, zero_division=0))
+new_customer = pd.DataFrame({
+    "Income": [55000],
+    "Age": [35],
+    "LoanAmount": [400000],
+    "CreditHistory": [1]
+})
+prediction = model.predict(new_customer)
+print("\n========== NEW CUSTOMER PREDICTION ==========")
+print("Income:", new_customer["Income"].iloc[0])
+print("Age:", new_customer["Age"].iloc[0])
+print("Loan Amount:", new_customer["LoanAmount"].iloc[0])
+print("Credit History:", new_customer["CreditHistory"].iloc[0])
+print("Predicted Credit Score:", prediction[0])
