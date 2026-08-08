@@ -1,0 +1,74 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, r2_score
+data = {
+    "Year": [
+        2015, 2016, 2017, 2018, 2019,
+        2020, 2021, 2022, 2014, 2016,
+        2017, 2018, 2019, 2020, 2021
+    ],
+    "Kilometers": [
+        80000, 75000, 65000, 55000, 45000,
+        35000, 25000, 15000, 95000, 70000,
+        60000, 50000, 40000, 30000, 20000
+    ],
+    "Engine": [
+        1200, 1200, 1500, 1500, 1600,
+        1600, 1800, 1800, 1000, 1200,
+        1500, 1500, 1600, 1600, 1800
+    ],
+    "Price": [
+        450000, 480000, 550000, 620000, 700000,
+        780000, 900000, 1000000, 400000, 500000,
+        570000, 650000, 720000, 820000, 950000
+    ]
+}
+df = pd.DataFrame(data)
+print("======================================")
+print("        CAR PRICE DATASET")
+print("======================================")
+print(df)
+X = df[["Year", "Kilometers", "Engine"]]
+y = df["Price"]
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("\n======================================")
+print("          PREDICTION RESULTS")
+print("======================================")
+for actual, predicted in zip(y_test, y_pred):
+    print(
+        "Actual Price: Rs.",
+        round(actual, 2),
+        "| Predicted Price: Rs.",
+        round(predicted, 2)
+    )
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print("\n======================================")
+print("          MODEL PERFORMANCE")
+print("======================================")
+print("Mean Absolute Error:", round(mae, 2))
+print("R2 Score:", round(r2, 2))
+print("R2 Accuracy:", round(r2 * 100, 2), "%")
+new_car = pd.DataFrame({
+    "Year": [2021],
+    "Kilometers": [30000],
+    "Engine": [1600]
+})
+predicted_price = model.predict(new_car)
+print("\n======================================")
+print("       NEW CAR PRICE PREDICTION")
+print("======================================")
+print("Car Year:", new_car["Year"].iloc[0])
+print("Kilometers:", new_car["Kilometers"].iloc[0])
+print("Engine:", new_car["Engine"].iloc[0], "cc")
+print("Predicted Car Price: Rs.", round(predicted_price[0], 2))
+print("\nProgram completed successfully!")
