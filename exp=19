@@ -1,0 +1,56 @@
+import numpy as np
+from sklearn.naive_bayes import GaussianNB
+
+# Features:
+# Income, Age, Loan Amount, Credit Score
+
+X = np.array([
+    [25, 25, 10, 600],
+    [30, 30, 15, 620],
+    [35, 35, 20, 650],
+    [40, 40, 25, 680],
+    [45, 45, 30, 700],
+    [50, 50, 35, 720],
+    [55, 55, 40, 750],
+    [60, 60, 45, 780],
+    [28, 28, 12, 610],
+    [38, 38, 22, 670],
+    [48, 48, 32, 710],
+    [58, 58, 42, 760]
+])
+
+# 0 = Loan Rejected
+# 1 = Loan Approved
+
+y = np.array([
+    0, 0, 0, 1,
+    1, 1, 1, 1,
+    0, 1, 1, 1
+])
+
+# Create model
+model = GaussianNB()
+
+# Train
+model.fit(X, y)
+
+print("BANK LOAN PREDICTION")
+print("====================")
+
+# New customer
+new_customer = [[45, 42, 25, 700]]
+
+prediction = model.predict(new_customer)
+
+print("\nCustomer Details:")
+print("Income      : 45,000")
+print("Age         : 42")
+print("Loan Amount : 25 Lakhs")
+print("Credit Score: 700")
+
+print("\nPrediction:")
+
+if prediction[0] == 1:
+    print("Loan Approved")
+else:
+    print("Loan Rejected")
